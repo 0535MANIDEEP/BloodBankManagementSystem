@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans antialiased selection:bg-blood/20 transition-colors duration-300;
+  }
+
+  body.dark {
+    @apply bg-[#121212] text-slate-100;
+  }
+}
+
+@layer components {
+  /* Glassmorphism Styles */
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-md border border-white/40 shadow-premium rounded-2xl;
+  }
+
+  .dark .glass-card {
+    @apply bg-[#1E1E1E]/80 backdrop-blur-md border-white/5 shadow-2xl rounded-2xl;
+  }
+
+  .glass-nav {
+    @apply bg-white/70 backdrop-blur-lg border-b border-white/30;
+  }
+
+  .dark .glass-nav {
+    @apply bg-[#1E1E1E]/80 backdrop-blur-lg border-b border-white/5;
+  }
+
+  .glass-input {
+    @apply bg-white/50 backdrop-blur-sm border border-slate-200 focus:border-blood focus:ring-1 focus:ring-blood/30 focus:outline-none rounded-xl transition-all duration-200 placeholder:text-slate-400;
+  }
+
+  .dark .glass-input {
+    @apply bg-[#2d2d2d]/60 backdrop-blur-sm border-white/10 focus:border-blood-light focus:ring-1 focus:ring-blood/50 focus:outline-none rounded-xl transition-all duration-200 placeholder:text-slate-500 text-white;
+  }
+
+  /* Scrollbars */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-200 rounded-full hover:bg-slate-300 transition-all;
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    @apply bg-neutral-800 hover:bg-neutral-700;
+  }
+}
+
+/* Skeleton Loading Animation */
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+.dark .skeleton {
+  background: linear-gradient(90deg, #2d2d2d 25%, #3d3d3d 50%, #2d2d2d 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+/* Page transitions helper */
+.page-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Ripple button base utility */
+.btn-ripple {
+  position: relative;
+  overflow: hidden;
+}
