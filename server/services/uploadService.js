@@ -22,9 +22,12 @@ class UploadService {
    * @private
    */
   _ensureDirectoryExists() {
-    if (!fs.existsSync(this.uploadDir)) {
-      fs.mkdirSync(this.uploadDir, { recursive: true });
-    }
+    if (process.env.VERCEL) return;
+    try {
+      if (!fs.existsSync(this.uploadDir)) {
+        fs.mkdirSync(this.uploadDir, { recursive: true });
+      }
+    } catch (e) {}
   }
 
   /**
@@ -33,6 +36,14 @@ class UploadService {
    * @returns {object} Multer instance
    */
   _configureMulter() {
+    if (process.env.VERCEL) {
+      return multer({
+        storage: multer.memoryStorage(),
+        limits: { fileSize: 5 * 1024 * 1024 },
+        fileFilter: this._fileFilter()
+      });
+    }
+
     const storage = multer.diskStorage({
       destination: (req, file, cb) => {
         cb(null, this.uploadDir);
@@ -61,23 +72,25 @@ class UploadService {
     });
   }
 
-  /**
-   * Exposes standard multer single-file upload middleware.
-   * @returns {Function} Express middleware
-   */
+  _fileFilter() {
+    return (req, file, cb) => {
+      const filetypes = /jpeg|jpg|png|pdf/;
+      const mimetype = filetypes.test(file.mimetype);
+      const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+      if (mimetype && extname) {
+        return cb(null, true);
+      }
+      cb(new Error('Only images and PDF documents are allowed for ID proof'));
+    };
+  }
+
   getMiddleware() {
     return this.multerInstance.single('file');
   }
 
-  /**
-   * Saves the file locally or uploads to AWS S3 based on environment flags,
-   * returning the public asset location.
-   * 
-   * @param {object} file - The Express file object.
-   * @returns {Promise<string>} Public URL of the uploaded document.
-   */
   async uploadToS3OrLocal(file) {
     if (process.env.USE_MOCK_S3 === 'true' || !process.env.AWS_ACCESS_KEY_ID) {
+      if (process.env.VERCEL) return `/uploads/${file.originalname}`;
       return `/uploads/${file.filename}`;
     } else {
       console.log('Uploading file to S3 bucket:', process.env.AWS_S3_BUCKET_NAME);
