@@ -5,4 +5,5 @@
 
 const app = require('../server/app');
 
-module.exports = app;
+// For Vercel serverless: export as a named handler
+module.exports = (req, res) => app(req, res);

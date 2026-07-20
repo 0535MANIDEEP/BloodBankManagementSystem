@@ -16,7 +16,9 @@ const User = require('./models/User');
 dotenv.config();
 
 // Connect to Database
-connectDB();
+connectDB().then(() => {
+  seedAdmin();
+}).catch(() => {});
 
 const app = express();
 
@@ -80,9 +82,6 @@ const seedAdmin = async () => {
     console.error('Failed to seed default admin:', error.message);
   }
 };
-
-// Run seed admin after connection established
-setTimeout(seedAdmin, 3000);
 
 // Error Handler Middleware
 app.use(errorHandler);
