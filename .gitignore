@@ -39,3 +39,4 @@ server/dist
 # Uploads
 server/uploads/*
 !server/uploads/.gitkeep
+.vercel

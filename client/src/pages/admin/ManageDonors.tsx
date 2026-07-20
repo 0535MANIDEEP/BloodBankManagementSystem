@@ -84,7 +84,7 @@ export const ManageDonors: React.FC = () => {
       header: 'ID Doc',
       accessor: (row: any) => row.idProofUrl ? (
         <a
-          href={`http://localhost:5000${row.idProofUrl}`}
+          href={`${window.location.origin}${row.idProofUrl}`}
           target="_blank"
           rel="noopener noreferrer"
           className="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-0.5 hover:underline"
