@@ -11,7 +11,7 @@
     "dev:server": "npm run dev --workspace=server",
     "dev:client": "npm run dev --workspace=client",
     "build:client": "npm run build --workspace=client",
-    "build:vercel": "export PATH=\"$PWD/node_modules/.bin:$PATH\" && cd client && tsc -b && vite build",
+    "build:vercel": "cd client && node ../node_modules/vite/bin/vite.js build",
     "install:all": "npm install"
   },
   "devDependencies": {
