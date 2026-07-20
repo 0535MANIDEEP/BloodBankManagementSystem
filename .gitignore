@@ -40,3 +40,4 @@ server/dist
 server/uploads/*
 !server/uploads/.gitkeep
 .vercel
+.env*
