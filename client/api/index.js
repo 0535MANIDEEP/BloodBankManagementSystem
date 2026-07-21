@@ -1,9 +1,22 @@
 /**
- * Vercel Serverless Function entry point.
- * Wraps the Express app for Vercel's serverless infrastructure.
+ * Vercel Serverless Function - BloodBank health check.
+ * The full backend requires MongoDB and can't run on Vercel serverless.
+ * This endpoint confirms the deployment is live.
  */
 
-const app = require('../../server/app');
+export default function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-// For Vercel serverless: export as a named handler
-module.exports = (req, res) => app(req, res);
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  res.status(200).json({
+    status: 'ok',
+    service: 'bloodbank-management-system',
+    message: 'Frontend is live. Backend requires MongoDB connection.',
+    timestamp: new Date().toISOString(),
+  });
+}
