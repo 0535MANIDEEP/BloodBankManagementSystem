@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "installCommand": "npm install --legacy-peer-deps --include=dev",
+  "installCommand": "npm install --legacy-peer-deps --include=dev && cd ../server && npm install --legacy-peer-deps",
   "buildCommand": "vite build",
   "outputDirectory": "dist",
   "routes": [
