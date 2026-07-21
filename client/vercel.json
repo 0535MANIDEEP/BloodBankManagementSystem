@@ -1,15 +1,11 @@
 {
   "version": 2,
-  "installCommand": "npm install --legacy-peer-deps",
-  "buildCommand": "npm run build",
+  "installCommand": "npm install --legacy-peer-deps --include=dev",
+  "buildCommand": "vite build",
   "outputDirectory": "dist",
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api/index.js"
-    },
-    {
-      "src": "/uploads/(.*)",
       "dest": "/api/index.js"
     },
     {
